@@ -19,7 +19,7 @@ export default function Footer({ setActivePage, onScrollToSection }) {
         <div className="space-y-6">
           <h4 className="text-xl font-bold text-[#091426]">QRX Skin Clinic</h4>
           <p className="text-sm leading-relaxed text-[#45474C]">
-            Redefining skin care through the fusion of medical science and artistic precision. Premium dermatological care with a commitment to clinical excellence and patient safety.
+            A dermatology clinic in Karnataka focused on doing things properly, medical-grade diagnosis, honest advice, and treatments that are right for you.
           </p>
           {/* Social / Contact Icons */}
           <div className="flex gap-4">
@@ -128,7 +128,7 @@ export default function Footer({ setActivePage, onScrollToSection }) {
 
       {/* Bottom bar */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 mt-12 pt-6 border-t border-[#C5C6CD]/30 text-center text-xs text-[#8590A6]">
-        <p>© 2026 <a href='https://www.qruxstudios.in/' target='_blank' className='hover:text-[#006B5F] transition-colors'>QRX Skin Clinic</a>. All rights reserved. Designed for Excellence.</p>
+        <p>© 2026 <a href='https://www.qruxstudios.in/' target='_blank' className='hover:text-[#006B5F] transition-colors'>QRUX Studios</a>. All rights reserved.</p>
       </div>
     </footer>
   );

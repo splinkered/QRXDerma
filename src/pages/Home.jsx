@@ -1,16 +1,14 @@
 import React from 'react';
 import { ArrowRight, Star, Award, Shield, FileText, Calendar } from 'lucide-react';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
+import { useParallax } from '../hooks/useParallax';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 // Import local image assets
-import heroBg from '../assets/hero_bg.png';
-import serviceClinical from '../assets/service_clinical.png';
+import heroBg from '../assets/hero_bg.jpg';
+import serviceClinical from '../assets/service_clinical.jpeg';
 import serviceAesthetic from '../assets/service_aesthetic.png';
-import serviceHair from '../assets/service_hair.png';
-import trust1 from '../assets/trust_1.png';
-import trust2 from '../assets/trust_2.png';
-import trust3 from '../assets/trust_3.png';
-import trust4 from '../assets/trust_4.png';
+import serviceHair from '../assets/service_hair.jpg';
 
 export default function Home({ setActivePage }) {
   const handleWhatsAppInquiry = (serviceName) => {
@@ -18,45 +16,30 @@ export default function Home({ setActivePage }) {
     window.open(`https://wa.me/917892653131?text=${text}`, '_blank');
   };
 
+  // Parallax ref for hero background image
+  const parallaxBgRef = useParallax(0.35);
+
+  // Scroll-reveal refs for each section group
+  const revealServices = useScrollReveal();
+  const revealAbout = useScrollReveal();
+  const revealTestimonials = useScrollReveal();
+  const revealCta = useScrollReveal();
+
   // Testimonial data
   const testimonials = [
     {
       id: 1,
-      name: 'Patient 2',
-      initials: 'P2',
-      text: '"The anti-aging treatments are incredibly subtle. No one knew I had anything done, they just kept saying I looked well-rested!"',
+      name: 'Ananya R.',
+      initials: 'AR',
+      text: '"The results were so natural, friends kept asking if I\'d been on holiday. Nobody could tell I\'d had anything done, which was exactly what I wanted."',
       stars: 5
     },
     {
       id: 2,
-      name: 'Patient 3',
-      initials: 'P3',
-      text: '"QRX has the best laser equipment in the city. Professional, painless, and highly effective for my pigmentation issues."',
+      name: 'Karthik M.',
+      initials: 'KM',
+      text: '"Dealt with pigmentation for years before coming here. Three sessions in and the difference is obvious. The doctor actually explained what was causing it instead of just treating the surface."',
       stars: 4
-    }
-  ];
-
-  // Steps data
-  const steps = [
-    {
-      number: '1',
-      title: 'DIGITAL CONSULTATION',
-      desc: 'Secure, easy booking and initial screening from home.'
-    },
-    {
-      number: '2',
-      title: 'SKIN MAPPING',
-      desc: 'High-precision diagnostic imaging and expert analysis.'
-    },
-    {
-      number: '3',
-      title: 'TARGETED TREATMENT',
-      desc: 'Customized therapeutic or aesthetic procedures.'
-    },
-    {
-      number: '4',
-      title: 'POST-CARE SUPPORT',
-      desc: 'Ongoing maintenance and 24/7 specialist access.'
     }
   ];
 
@@ -66,11 +49,12 @@ export default function Home({ setActivePage }) {
       {/* 1. HERO SECTION */}
       <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center overflow-hidden">
         {/* Background Image */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <img
+            ref={parallaxBgRef}
             src={heroBg}
             alt="Clinic Care"
-            className="w-full h-full object-cover object-right md:object-center"
+            className="parallax-img w-full h-[130%] object-cover object-right md:object-center -top-[15%] absolute"
           />
           {/* Overlay Gradient */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#F7F9FB] via-[#F7F9FB]/80 to-transparent" />
@@ -78,21 +62,15 @@ export default function Home({ setActivePage }) {
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-20 w-full grid grid-cols-1 lg:grid-cols-2">
           <div className="max-w-xl space-y-8">
-            {/* Expertise Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#6DF5E1] rounded-full border border-[#006B5F]/20">
-              <span className="text-xs font-bold text-[#006F64] tracking-wide uppercase">
-                Expert Dermatological Care
-              </span>
-            </div>
 
             {/* Main Heading */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#091426] leading-tight">
-              Advanced Dermatological Care for Radiantly Healthy Skin.
+              Skin care that actually works.
             </h1>
 
             {/* Paragraph */}
             <p className="text-lg text-[#45474C] leading-relaxed">
-              Personalized, expert skin treatments tailored to your unique needs. Experience the precision of medical science and the art of aesthetics.
+              QRX brings together medical dermatology and aesthetic care under one roof. No generic protocols, just treatment built around your skin.
             </p>
 
             {/* CTA Buttons */}
@@ -125,7 +103,7 @@ export default function Home({ setActivePage }) {
               ))}
             </div>
             <p className="text-base font-semibold text-[#091426]">
-              Trusted by <span className="text-[#006B5F] font-bold">5000+</span> Happy Patients
+              <span className="text-[#006B5F] font-bold">5,000+</span> patients treated across Karnataka
             </p>
           </div>
 
@@ -134,13 +112,13 @@ export default function Home({ setActivePage }) {
       </section>
 
       {/* 3. SERVICES PREVIEW SECTION */}
-      <section id="services-preview" className="py-20 md:py-28 max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
+      <section id="services-preview" className="py-20 md:py-28 max-w-7xl mx-auto px-6 lg:px-8" ref={revealServices}>
+        <div className="text-center max-w-3xl mx-auto space-y-4 mb-16 reveal">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#091426]">
-            Precision Skin Solutions
+            What we treat
           </h2>
           <p className="text-lg text-[#45474C] leading-relaxed">
-            From clinical pathology to aesthetic enhancement, we provide a holistic approach to skin health.
+            Whether it's a medical condition or something you'd just like to address, we handle both.
           </p>
         </div>
 
@@ -148,7 +126,7 @@ export default function Home({ setActivePage }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
           {/* Service 1 */}
-          <div className="flex flex-col bg-white border border-[#C5C6CD]/40 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
+          <div className="reveal reveal-delay-1 flex flex-col bg-white border border-[#C5C6CD]/30 rounded-xl overflow-hidden shadow-[0_2px_8px_-2px_rgba(9,20,38,0.08),0_8px_24px_-4px_rgba(9,20,38,0.06)] hover:shadow-[0_4px_16px_-2px_rgba(9,20,38,0.12),0_12px_32px_-4px_rgba(9,20,38,0.09)] hover:-translate-y-0.5 transition-all duration-300 group">
             <div className="h-56 overflow-hidden">
               <img
                 src={serviceClinical}
@@ -165,7 +143,7 @@ export default function Home({ setActivePage }) {
                   Clinical Dermatology
                 </h3>
                 <p className="text-sm text-[#45474C] leading-relaxed">
-                  Specialized care for chronic conditions like acne, eczema, and psoriasis using evidence-based protocols.
+                  Acne, eczema, psoriasis, and other skin conditions treated with proper diagnosis, not guesswork.
                 </p>
               </div>
               <button
@@ -179,7 +157,7 @@ export default function Home({ setActivePage }) {
           </div>
 
           {/* Service 2 */}
-          <div className="flex flex-col bg-white border border-[#006B5F]/20 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
+          <div className="reveal reveal-delay-2 flex flex-col bg-white border border-[#006B5F]/20 rounded-xl overflow-hidden shadow-[0_2px_8px_-2px_rgba(9,20,38,0.08),0_8px_24px_-4px_rgba(9,20,38,0.06)] hover:shadow-[0_4px_16px_-2px_rgba(9,20,38,0.12),0_12px_32px_-4px_rgba(9,20,38,0.09)] hover:-translate-y-0.5 transition-all duration-300 group">
             <div className="h-56 overflow-hidden">
               <img
                 src={serviceAesthetic}
@@ -196,7 +174,7 @@ export default function Home({ setActivePage }) {
                   Aesthetic & Anti-Aging
                 </h3>
                 <p className="text-sm text-[#45474C] leading-relaxed">
-                  Advanced laser therapies, Botox, and dermal fillers designed to rejuvenate and maintain your natural beauty.
+                  Laser therapy, Botox, and fillers, done conservatively. We're not here to change how you look, just to help you look like yourself.
                 </p>
               </div>
               <button
@@ -210,7 +188,7 @@ export default function Home({ setActivePage }) {
           </div>
 
           {/* Service 3 */}
-          <div className="flex flex-col bg-white border border-[#C5C6CD]/40 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group">
+          <div className="reveal reveal-delay-3 flex flex-col bg-white border border-[#C5C6CD]/30 rounded-xl overflow-hidden shadow-[0_2px_8px_-2px_rgba(9,20,38,0.08),0_8px_24px_-4px_rgba(9,20,38,0.06)] hover:shadow-[0_4px_16px_-2px_rgba(9,20,38,0.12),0_12px_32px_-4px_rgba(9,20,38,0.09)] hover:-translate-y-0.5 transition-all duration-300 group">
             <div className="h-56 overflow-hidden">
               <img
                 src={serviceHair}
@@ -227,7 +205,7 @@ export default function Home({ setActivePage }) {
                   Hair & Scalp Restoration
                 </h3>
                 <p className="text-sm text-[#45474C] leading-relaxed">
-                  Innovative treatments for hair thinning and scalp health, restoring confidence through scientific restoration.
+                  Hair thinning and scalp conditions treated with growth factor therapy and low-level laser, approaches that have a real evidence base.
                 </p>
               </div>
               <button
@@ -246,44 +224,44 @@ export default function Home({ setActivePage }) {
       {/* 4. THE QRX DIFFERENCE SECTION */}
       <section id="about" className="bg-[#F2F4F6] py-20 md:py-28">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12" ref={revealAbout}>
 
             {/* Feature 1 */}
-            <div className="space-y-4">
+            <div className="reveal reveal-delay-1 space-y-4">
               <div className="w-12 h-12 rounded-lg bg-[#006B5F]/10 flex items-center justify-center text-[#006B5F]">
                 <Award className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold text-[#091426]">
-                Board-Certified Experts
+                Qualified dermatologists
               </h3>
               <p className="text-base text-[#45474C] leading-relaxed">
-                Our team consists of internationally recognized dermatologists with decades of combined clinical experience.
+                Every treatment at QRX is overseen by a trained dermatologist, not a technician following a protocol sheet.
               </p>
             </div>
 
             {/* Feature 2 */}
-            <div className="space-y-4">
+            <div className="reveal reveal-delay-2 space-y-4">
               <div className="w-12 h-12 rounded-lg bg-[#006B5F]/10 flex items-center justify-center text-[#006B5F]">
                 <Shield className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold text-[#091426]">
-                State-of-the-Art Tech
+                Equipment that matters
               </h3>
               <p className="text-base text-[#45474C] leading-relaxed">
-                We utilize the latest FDA-approved diagnostic and treatment technologies for safer, more effective outcomes.
+                We invest in FDA-cleared devices because the hardware genuinely affects outcomes. No shortcuts on the things that count.
               </p>
             </div>
 
             {/* Feature 3 */}
-            <div className="space-y-4">
+            <div className="reveal reveal-delay-3 space-y-4">
               <div className="w-12 h-12 rounded-lg bg-[#006B5F]/10 flex items-center justify-center text-[#006B5F]">
                 <FileText className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold text-[#091426]">
-                Tailored Plans
+                Your skin, not a template
               </h3>
               <p className="text-base text-[#45474C] leading-relaxed">
-                No two skins are the same. We craft personalized treatment journeys mapped to your genetic profile and goals.
+                We don't have a standard package for every patient. The plan we build is based on what's actually happening with your skin.
               </p>
             </div>
 
@@ -291,49 +269,17 @@ export default function Home({ setActivePage }) {
         </div>
       </section>
 
-      {/* 5. PATIENT JOURNEY SECTION */}
-      <section className="py-20 md:py-28 max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#091426]">
-            Your Journey to Radiance
-          </h2>
-          <p className="text-lg text-[#45474C] leading-relaxed">
-            A seamless, medical-grade process designed for your comfort.
-          </p>
-        </div>
 
-        {/* Steps Journey Grid */}
-        <div className="relative">
-          {/* Progress Connecting Line (Desktop) */}
-          <div className="hidden lg:block absolute top-12 left-1/8 right-1/8 h-0.5 bg-[#C5C6CD]/40 z-0" />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
-            {steps.map((step) => (
-              <div key={step.number} className="flex flex-col items-center text-center p-6 bg-white border border-[#C5C6CD]/30 rounded-xl shadow-sm hover:-translate-y-1 transition-all duration-300">
-                <div className="w-12 h-12 rounded-full bg-[#006B5F] text-white font-bold flex items-center justify-center text-lg mb-6 shadow-md border-4 border-[#F7F9FB]">
-                  {step.number}
-                </div>
-                <h4 className="text-sm font-bold tracking-wider text-[#091426] mb-3 uppercase">
-                  {step.title}
-                </h4>
-                <p className="text-sm text-[#45474C] leading-relaxed">
-                  {step.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* 6. PATIENT RESULTS / TESTIMONIALS BENTO */}
       <section id="results" className="bg-[#F2F4F6] py-20 md:py-28">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 space-y-16">
-          <div className="max-w-3xl space-y-4">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 space-y-16" ref={revealTestimonials}>
+          <div className="max-w-3xl space-y-4 reveal">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#091426]">
-              Patient Results
+              What patients say
             </h2>
             <p className="text-lg text-[#45474C] leading-relaxed">
-              Real stories and clinical outcomes from our QRX community.
+              A few words from people who've been through treatment here.
             </p>
           </div>
 
@@ -341,7 +287,7 @@ export default function Home({ setActivePage }) {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
             {/* Highlight Case: Before/After acne comparison (spans 2 cols, 2 rows) */}
-            <div className="lg:col-span-2 lg:row-span-2 flex flex-col bg-white border border-[#C5C6CD]/40 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div className="reveal reveal-delay-1 lg:col-span-2 lg:row-span-2 flex flex-col bg-white border border-[#C5C6CD]/30 rounded-xl overflow-hidden shadow-[0_2px_8px_-2px_rgba(9,20,38,0.08),0_8px_24px_-4px_rgba(9,20,38,0.06)] hover:shadow-[0_4px_16px_-2px_rgba(9,20,38,0.12),0_12px_32px_-4px_rgba(9,20,38,0.09)] transition-shadow">
               {/* Image comparison slider */}
               <BeforeAfterSlider />
 
@@ -349,19 +295,19 @@ export default function Home({ setActivePage }) {
               <div className="p-8 space-y-6 flex-1 flex flex-col justify-between">
                 <div className="space-y-4">
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#091426] rounded-full text-[10px] font-bold text-[#71F8E4] tracking-widest uppercase">
-                    3 Months Progress
+                    3-month result
                   </div>
                   <p className="text-lg italic text-[#091426] leading-relaxed">
-                    "The acne protocol changed my life. I finally feel confident in my own skin again. The team at QRX is world-class."
+                    "I'd tried everything before coming here. After three months on the acne protocol, my skin looked better than it did in school. I actually stopped wearing foundation."
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-[#006B5F]/10 flex items-center justify-center font-bold text-[#006B5F]">
-                    SJ
+                    SR
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-[#091426]">Patient 1</h4>
-                    <p className="text-xs text-[#8590A6]">Acne Management Patient</p>
+                    <h4 className="text-sm font-bold text-[#091426]">Shreya R.</h4>
+                    <p className="text-xs text-[#8590A6]">Acne & scar treatment</p>
                   </div>
                 </div>
               </div>
@@ -371,7 +317,7 @@ export default function Home({ setActivePage }) {
             {testimonials.map((testimonial) => (
               <div
                 key={testimonial.id}
-                className="lg:col-span-2 bg-white border border-[#C5C6CD]/40 rounded-xl p-8 flex flex-col justify-between gap-6 shadow-sm hover:shadow-md transition-shadow"
+                className="reveal reveal-delay-2 lg:col-span-2 bg-white border border-[#C5C6CD]/30 rounded-xl p-8 flex flex-col justify-between gap-6 shadow-[0_2px_8px_-2px_rgba(9,20,38,0.08),0_8px_24px_-4px_rgba(9,20,38,0.06)] hover:shadow-[0_4px_16px_-2px_rgba(9,20,38,0.12),0_12px_32px_-4px_rgba(9,20,38,0.09)] transition-shadow"
               >
                 <div className="space-y-4">
                   {/* Stars */}
@@ -408,12 +354,12 @@ export default function Home({ setActivePage }) {
           </svg>
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-8">
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center space-y-8 reveal" ref={revealCta}>
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
-            Ready to Transform Your Skin?
+            Not sure where to start?
           </h2>
           <p className="text-base md:text-lg text-[#8590A6] max-w-2xl mx-auto leading-relaxed">
-            Join thousands of patients who have achieved their best skin health with QRX. Your transformation starts with a single consultation.
+            Book a consultation and we'll figure it out together. No pressure, no upselling, just an honest look at what's going on with your skin.
           </p>
           <div className="pt-2">
             <button
